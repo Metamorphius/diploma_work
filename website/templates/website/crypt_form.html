@@ -1,0 +1,19 @@
+{% extends 'website/base.html' %}
+
+{% block banner %}
+<div id="banner-crypt">Криптовалюты</div>
+{% endblock %}
+
+{% block content %}
+
+<form method="post">
+    <div class="form-group">
+    {% csrf_token %}
+    {{ form.as_p }}
+    </div>
+    <div class="submit-block">
+        <input type="submit" value="Отправить">
+    </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'website/base.html' %}
+
+{% block banner %}
+<div id="banner"></div>
+{% endblock %}
+
+{% block content %}
+
+<div class="boxA">
+	<h2>Криптовалюты</h2>
+	<div class="box">
+		<a href="{% url 'crypt' %}"><div class="image image-full"></div></a>
+	</div>
+	<p>Прогнозы по основным криптовалютам, включая Bitcoin, Ethereum, Litecoin и т.д.</p>
+	<a href="{% url 'crypt' %}" class="button">Далее</a>
+</div>
+
+{% endblock %}
