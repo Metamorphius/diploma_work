@@ -6,7 +6,7 @@ class  DigitalCurrency(models.Model):
     slug = models.SlugField(max_length=15, unique=True, db_index=True)
 
     def __str__(self):
-        return self.name
+        return self.ticker
 
     class Meta:
         ordering = ['ticker']
