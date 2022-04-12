@@ -8,4 +8,4 @@ choices = (('DIGITAL_CURRENCY_DAILY', 'Daily'),
 
 class CryptForm(forms.Form):
     ticker = forms.ModelChoiceField(queryset=DigitalCurrency.objects.only('ticker'))
-    time_frame = forms.ChoiceField(label='Layout', choices=choices)
+    time_frame = forms.ChoiceField(label='time frame', choices=choices)
