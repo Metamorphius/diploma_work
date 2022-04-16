@@ -1,0 +1,23 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block banner %}
+<div id="banner-crypt">Криптовалюты</div>
+{% endblock %}
+
+{% block content %}
+
+<div style="display: none" id="jsonData" data-json="{{ data }}"></div>
+
+<canvas id="cryptChart"></canvas>
+
+{% endblock %}
+
+{% block script %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+<script src="{% static 'website/js/crypt_chart.js' %}"></script>
+
+{% endblock %}
+
+

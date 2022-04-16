@@ -1,16 +1,20 @@
+import json
+
+import pandas as pd
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import FormView, View
+from django.views.generic import FormView, TemplateView
 from django.urls import reverse_lazy
+from decouple import config
 from .forms import *
 from .models import *
-
+from .utils import *
 
 
 class ChooseCrypt(FormView):
     form_class = CryptForm
     template_name = 'website/crypt_form.html'
-    success_url = '/thanks/'
+
 
     def form_valid(self, form):
         self.request.session['selected_ticker'] = str(form.cleaned_data['ticker'])
@@ -23,6 +27,32 @@ class ChooseCrypt(FormView):
         return reverse_lazy('crypt-page', kwargs={'slug_crypt': ticker})
 
 
-class CryptPage(View):
-    def get(self, request, *args, **kwargs):
-        return HttpResponse(f'Output')
+class CryptPage(TemplateView):
+    template_name = 'website/crypt_page.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        func = self.request.session['selected_time_frame']
+        symb = self.request.session['selected_ticker']
+
+        dc_json = get_dc_data(func, symb, 'USD', config('API_KEY'))
+
+        df = convert_dc_data_to_df(dc_json)
+
+        source = pd.DataFrame(df, columns=['date', 'openA'])
+        source = source.to_dict('records')
+
+        result = []
+
+        for block in source:
+            block['date'] = block['date'].strftime('%Y-%m-%d')
+            result.append({
+                'date': block['date'],
+                'cost': block['openA']
+                }
+            )
+
+        context['data'] = json.dumps(result)
+
+        return context

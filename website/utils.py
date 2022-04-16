@@ -3,8 +3,7 @@ import pandas as pd
 
 
 def get_dc_data(function, symbol, market, apikey):
-    url = f'https://www.alphavantage.co/query?function={function}' \
-          f'&symbol={symbol}&market={market}&interval=5min&apikey={apikey}'
+    url = f'https://www.alphavantage.co/query?function={function}&symbol={symbol}&market={market}&apikey={apikey}'
 
     r = requests.get(url)
 
