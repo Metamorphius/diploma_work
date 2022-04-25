@@ -83,6 +83,15 @@
         height: 30vh;
 		background-size: cover;
 	}
+
+	.image-full1
+	{
+		display: block;
+        background: url('../images/stoki.jpg');
+        width: 50vh;
+        height: 30vh;
+		background-size: cover;
+	}
 	
 	.image-left
 	{
@@ -213,7 +222,7 @@
 	.boxB
 	{
 		float: left;
-		margin-right: 20px;
+		margin-right: 5em;
 	}
 	
 	.boxC
