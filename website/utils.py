@@ -8,6 +8,7 @@ def get_dc_data(function, symbol, market, apikey):
     r = requests.get(url)
 
     data = r.json()
+
     key = 'Time Series (' + function.replace('_', ' ').title() + ')'
 
     return data[key]

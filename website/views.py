@@ -18,7 +18,6 @@ class ChooseCrypt(FormView):
 
     def form_valid(self, form):
         self.request.session['selected_ticker'] = str(form.cleaned_data['ticker'])
-        self.request.session['selected_time_frame'] = form.cleaned_data['time_frame']
 
         return super(ChooseCrypt, self).form_valid(form)
 
@@ -33,10 +32,9 @@ class CryptPage(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        func = self.request.session['selected_time_frame']
         symb = self.request.session['selected_ticker']
 
-        dc_json = get_dc_data(func, symb, 'USD', config('API_KEY'))
+        dc_json = get_dc_data('DIGITAL_CURRENCY_DAILY', symb, 'USD', config('API_KEY'))
 
         df = convert_dc_data_to_df(dc_json)
 

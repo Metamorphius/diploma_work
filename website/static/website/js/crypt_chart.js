@@ -9,19 +9,24 @@ var data = jsonData.map((item) => item.cost);
 var labels = jsonData.map((item) => item.date);
 
 var config = {
-    type: 'bar',
+    type: 'line',
     data: {
         labels: labels,
         datasets: [{
-            label: 'A random dataset',
+            label: 'Основной график',
             backgroundColor: 'blue',
-            borderColor: 'lightblue',
+            borderColor: 'red',
             data: data,
-            fill: false
+            fill: false,
         }]
     },
     options: {
-      responsive: true
+        responsive: false,
+        elements: {
+            point: {
+                radius: 0
+            }
+        }
     }
     };
 
