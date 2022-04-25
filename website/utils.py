@@ -54,3 +54,23 @@ def convert_dc_data_to_df(data):
     df.mcap = df.mcap.astype(float)
 
     return df
+
+def convert_stock_data_to_df(data):
+    df = pd.DataFrame.from_dict(data, orient='index')
+
+    df = df.reset_index()
+
+    df = df.rename(index=str, columns={df.columns[0]: "date", df.columns[1]: "open",
+                                       df.columns[2]: "high", df.columns[3]: "low",
+                                       df.columns[4]: "close", df.columns[5]: "volume", })
+
+    df['date'] = pd.to_datetime(df['date'])
+    df = df.sort_values(by=['date'])
+
+    df.open = df.open.astype(float)
+    df.high = df.high.astype(float)
+    df.low = df.low.astype(float)
+    df.close = df.close.astype(float)
+    df.volume = df.volume.astype(float)
+
+    return df
