@@ -1,0 +1,21 @@
+{% extends 'website/base.html' %}
+
+{% block banner %}
+<div id="banner-crypt">Акции</div>
+{% endblock %}
+
+{% block content %}
+
+<div id="page" class="container">
+    <form method="post">
+        <div class="form-group">
+        {% csrf_token %}
+        {{ form.as_p }}
+        </div>
+        <div class="submit-block">
+            <input type="submit" value="Отправить">
+        </div>
+    </form>
+</div>
+
+{% endblock %}
