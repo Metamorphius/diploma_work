@@ -14,6 +14,19 @@ def get_dc_data(function, symbol, market, apikey):
     return data[key]
 
 
+def get_stok_data(symbol, apikey):
+    url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=' \
+          f'{symbol}&outputsize=full&apikey={apikey}'
+
+    r = requests.get(url)
+
+    data = r.json()
+
+    key = 'Time Series (Daily)'
+
+    return data[key]
+
+
 def convert_dc_data_to_df(data):
     df = pd.DataFrame.from_dict(data, orient='index')
 
