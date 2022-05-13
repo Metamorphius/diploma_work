@@ -35,6 +35,9 @@ class ChooseStock(FormView):
 
     def form_valid(self, form):
         self.request.session['selected_ticker'] = str(form.cleaned_data['ticker'])
+        self.request.session['days'] = form.cleaned_data['days']
+        self.request.session['epochs'] = form.cleaned_data['epochs']
+        self.request.session['time_step'] = form.cleaned_data['time_step']
 
         return super(ChooseStock, self).form_valid(form)
 
@@ -80,12 +83,15 @@ class StockPage(TemplateView):
         context = super().get_context_data(**kwargs)
 
         symb = self.request.session['selected_ticker']
+        days = self.request.session['days']
+        epochs = self.request.session['epochs']
+        time_step = self.request.session['time_step']
 
         dc_json = get_stok_data(symb, config('API_KEY'))
 
         df = convert_stock_data_to_df(dc_json)
 
-        lstm_predict = train_lstm(df, symb, 100, 1, 10)
+        lstm_predict = train_lstm(df, symb, time_step, epochs, days)
 
         source = pd.DataFrame(df, columns=['date', 'close'])
         source = source.to_dict('records')
@@ -102,14 +108,14 @@ class StockPage(TemplateView):
 
         context['data'] = json.dumps(result)
 
-        date_df = pd.bdate_range(pd.Timestamp.today(), periods=10).tolist()
+        date_df = pd.bdate_range(pd.Timestamp.today(), periods=days).tolist()
         date_predict = []
 
         for date in date_df:
             date_predict.append(date.strftime('%Y-%m-%d'))
 
         result_predict = []
-        for i in range(10):
+        for i in range(days):
             result_predict.append({
                 'date': date_predict[i],
                 'cost': lstm_predict[i]

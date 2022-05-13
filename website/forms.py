@@ -7,3 +7,6 @@ class CryptForm(forms.Form):
 
 class StockForm(forms.Form):
     ticker = forms.ModelChoiceField(queryset=Stock.objects.only('ticker'))
+    days = forms.IntegerField()
+    epochs = forms.IntegerField()
+    time_step = forms.IntegerField()

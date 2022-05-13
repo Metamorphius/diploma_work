@@ -474,8 +474,8 @@
     .form-group input {
         padding: 0;
         line-height: 50px;
-        background: #f1f1f1;
-        border-width: 0;
+        background: white;
+        border: 1px solid #878787;
     }
 
     .form-group label {
