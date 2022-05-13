@@ -9,6 +9,8 @@ from decouple import config
 from .forms import *
 from .models import *
 from .utils import *
+from .neural_network import *
+
 
 
 class ChooseCrypt(FormView):
@@ -83,21 +85,37 @@ class StockPage(TemplateView):
 
         df = convert_stock_data_to_df(dc_json)
 
-        print(dc_json)
+        lstm_predict = train_lstm(df, symb, 100, 1, 10)
 
-        source = pd.DataFrame(df, columns=['date', 'open'])
+        source = pd.DataFrame(df, columns=['date', 'close'])
         source = source.to_dict('records')
-        
+
         result = []
 
         for block in source:
             block['date'] = block['date'].strftime('%Y-%m-%d')
             result.append({
                 'date': block['date'],
-                'cost': block['open']
+                'cost': block['close']
             }
             )
 
         context['data'] = json.dumps(result)
+
+        date_df = pd.bdate_range(pd.Timestamp.today(), periods=10).tolist()
+        date_predict = []
+
+        for date in date_df:
+            date_predict.append(date.strftime('%Y-%m-%d'))
+
+        result_predict = []
+        for i in range(10):
+            result_predict.append({
+                'date': date_predict[i],
+                'cost': lstm_predict[i]
+            }
+            )
+
+        context['predict_data'] = json.dumps(result_predict)
 
         return context

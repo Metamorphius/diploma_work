@@ -8,8 +8,12 @@
 {% block content %}
 
 <div style="display: none" id="jsonData" data-json="{{ data }}"></div>
+<div style="display: none" id="jsonPredictData" data-json="{{ predict_data }}"></div>
 
-<canvas id="cryptChart" width="600" height="400"></canvas>
+<div class="wrapperChart">
+    <canvas id="cryptChart" width="600" height="400"></canvas>
+    <canvas id="secondChart" width="600" height="400"></canvas>
+</div>
 
 {% endblock %}
 
